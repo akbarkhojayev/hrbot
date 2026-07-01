@@ -29,6 +29,8 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
+GROUP_CHAT_ID = os.getenv("GROUP_CHAT_ID")
+NOTIFY_CHAT_ID = GROUP_CHAT_ID or ADMIN_CHAT_ID
 DATA_DIR = Path("data")
 APPLICATIONS_FILE = DATA_DIR / "applications.jsonl"
 WELCOME_IMAGES = [Path("imagee.png"), Path("image.png")]
@@ -448,9 +450,9 @@ async def main() -> None:
             reply_markup=ReplyKeyboardRemove(),
         )
 
-        if ADMIN_CHAT_ID:
+        if NOTIFY_CHAT_ID:
             await bot.send_message(
-                ADMIN_CHAT_ID,
+                NOTIFY_CHAT_ID,
                 format_admin_summary(application),
                 reply_markup=admin_application_keyboard(application),
             )
